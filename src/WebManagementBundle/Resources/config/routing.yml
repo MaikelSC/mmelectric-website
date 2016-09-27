@@ -1,0 +1,22 @@
+app:
+    resource: "@WebManagementBundle/Controller/"
+    type:     annotation
+logout_redir:
+    path: /logout
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+remove_item:
+    path: /wms/management/delete/
+    defaults: { _controller: WebManagementBundle:BackEnd:removeItem}
+    options:
+        expose: true
+edit_item:
+    path: /wms/management/edit/
+    defaults: { _controller: WebManagementBundle:BackEnd:editItem}
+    options:
+        expose: true
+get_table_records:
+    path: /wms/management/show/
+    defaults: { _controller: WebManagementBundle:BackEnd:getTableRecords}
+    options:
+        expose: true

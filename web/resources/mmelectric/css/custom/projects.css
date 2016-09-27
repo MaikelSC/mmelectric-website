@@ -1,0 +1,165 @@
+div.project-title{
+	font-weight: bold;
+	font-size: 2.25em;
+	font-style: normal;
+	border-bottom: 0;	
+	margin: 2%;
+	padding: 4% 0 4% 0;
+}
+div.cl-projects-section{
+	padding: 0;
+	background: #535353;
+}
+
+div.img-container > img{
+	width: 80%;
+	height: 53%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	
+}
+.album-icon{
+	position: absolute;
+	background: url('../../img/caption-box-background.png');
+	border: 1px solid #595959;
+	color: white;
+	padding: 1%;
+	left: 62%;
+	top:85%;
+	font-size: .75em;
+	z-index: 6;
+	cursor: pointer;
+	font-family: "Eras ITC", "Eras Light ITC", Verdana, Geneva, "Trebuchet MS", Helvetica, sans-serif;
+	-webkit-box-shadow:  0px 3px 3px -3px #999999;
+    -moz-box-shadow:  0px 3px 3px -3px #999999;
+    box-shadow: 0px 3px 3px -3px #999999;
+}
+.album-icon:hover{
+		border: 1px solid #c2c2c2;
+		color: white;
+	}
+.has-album{
+	
+	transform: /*skewY(3deg)*/ /*skewX(3deg)*/ /*rotateX(15deg)*/ /*rotateY(-20deg)*/ /*rotateZ(-2deg)*/;
+	-webkit-box-shadow:  2px -2px 2px #606060;
+    -moz-box-shadow:  2px -2px 2px #606060;
+    box-shadow: 2px -2px 2px #606060;
+    
+}
+.has-album1{
+	position: absolute;
+	display: block;
+/*	display: none;*/
+	left: 11.75%;
+	top:-1.75%;
+	border: 1px solid #060000;
+	cursor: pointer;
+	width: 80%;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	background: #f9fbfb;
+	z-index: -1;
+	-webkit-box-shadow:  2px -2px 2px #606060;
+    -moz-box-shadow:  2px -2px 2px #606060;
+    box-shadow: 2px -2px 2px #606060;
+}
+.img-container{
+	position: relative;
+	perspective: 75em;
+	margin: 0 0 2% 0;
+}
+.show-album{
+	position: absolute;
+/*	display: block;*/
+	display: none;
+	left: 10%;
+	top:0%;
+	border: 1px solid #060000;
+	-webkit-box-shadow:  3px 3px -3px black;
+    -moz-box-shadow:  3px 3px -3px black;
+	box-shadow: 3px 3px -3px black;
+	cursor: pointer;
+	z-index: 5;
+	width: 80%;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	background: url(../../img/caption-box-background.png) repeat-y top left;
+}
+.show-album > p{
+/*	display: block;*/
+	display: none;
+	position: relative;
+	top:50%; 
+	color: white;
+	font-size: 1.5em;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px #070a1b;
+	-webkit-transform: translateY(-50%);
+  	-moz-transform: translateY(-50%);
+  	-ms-transform: translateY(-50%);
+  	-o-transform: translateY(-50%);
+  	transform: translateY(-50%);
+}
+.project-content{
+	margin: 2%;
+	padding: 1%;
+	background: #f0f0f0;	
+	text-align: justify;
+	font-size: .9em;
+	font-family: Georgia, Times,"Times New Roman",serif;
+}
+div.project-content > p:first-child:first-letter{
+	font-size: 2em;
+	font-weight: bold;
+	font-family: Palatino,"Palatino Linotype","Palatino LT STD","Book Antiqua",Georgia,serif;
+}
+
+div.projects-background{
+	background: #f0f0f0 url('../../img/bg-projects.png') repeat-y top left;
+	margin: 0 auto 0 auto;
+	padding: 2% 1% 1% 1%;
+}
+
+div.project-container{
+	margin-bottom: 2%;
+	background: #fdffff;
+	border: 1px groove #d0d0d2; 
+	-webkit-box-shadow: 0px 5px 10px -5px black;
+	-moz-box-shadow: 0px 5px 10px -5px black;
+	box-shadow: 0px 5px 10px -5px black;
+	
+}
+/*------------------Desktop adjustments---------------------------------------------*/
+
+@media only screen and (min-width: 768px){
+	div.img-container > img{
+		width: 60%;
+		height: 60%;
+		
+	}
+	.album-icon{
+		left: 69.5%;
+		top:85%;
+		font-size: .9em;
+	}
+	
+	.has-album1{
+		left: 20.5%;
+		top:-1.5%;
+		width: 60%;
+	}
+	.show-album{
+		left: 20%;
+		width: 60%;
+	}
+	.project-content{
+		margin: 2%;
+		padding: 1%;
+		background: #f0f0f0;	
+		text-align: justify;
+		font-size: 1.25em;
+	}
+}

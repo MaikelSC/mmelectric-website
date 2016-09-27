@@ -1,0 +1,52 @@
+{% extends 'webmanager/templates/temp_back-end.html.twig'%}
+
+{% block title %}
+	Management System
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('/resources/webmanager/css/custom/main-back-end.css')}}"
+{% endblock %}
+
+{% block body %}
+
+	<header class="header-color header-size shodow-effect">
+		<div class="container bg-header-container">
+			<div class="row banner-img">
+				{% if(is_granted("IS_AUTHENTICATED_FULLY"))%}
+					<div class="col-xs-12 col-md-5 pull-right">
+						<h5 class="padding-null pull-right welcome-text">
+							Welcome {{app.user.getUsername()}} | <a href="{{path('logout_redir')}}">Logout</a>
+						</h5>
+					</div>			
+				{% endif %}
+			</div>			
+		</div>
+	</header>
+	<div class="container clearfix">		
+		<section class="row content-height equal">
+			<aside class="col-sm-3 tables-cont padding-null min-content-height">				
+				{{render(controller('WebManagementBundle:BackEnd:BackEndList', {'table': "aa"}))}}							
+			</aside>
+			<article class="col-sm-9 padding-null">
+				{% block content%}
+				{% endblock content%}				
+			</article>
+		</section>
+	</div>
+	<footer class="footer-color shodow-effect">
+		<div class="container">
+			<div class="row text-center text-style">
+				<p class="margin-null">Designed and Developed by <strong>Maikel Y. Sanudo Clemente</strong></p>
+				<p class="margin-null">Under the Symfony 2.7 Technology.</p>
+				<p class="margin-null">All rights reserved.</p>
+			</div>
+		</div>
+	</footer>
+{% endblock %}
+{% block javascripts%}
+	<script type="text/javascript" src="{{asset('/resources/webmanager/js/customs/back-end-list-crud.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/resources/webmanager/js/customs/back-end-paginate.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/resources/webmanager/js/customs/back-end-viewfinder.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/resources/webmanager/js/customs/item-selection.js')}}"></script>
+{%endblock%}

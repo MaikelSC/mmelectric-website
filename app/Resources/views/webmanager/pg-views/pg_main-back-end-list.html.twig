@@ -1,0 +1,157 @@
+{%extends 'webmanager/pg-views/pg_main-back-end.html.twig'%}
+{%block content%}
+<a name="table-link"></a>
+	<ul id="id_dependencies" hidden="true">
+		{% if tb_dependencies_arr|length == 0%}
+			<li>
+				No Dependencies...
+			</li>
+		{%else%}
+			{% for dependencies in tb_dependencies_arr %}				
+				<li class="dependecies-icon">
+					{{dependencies|replace({'tb_':'Table ', '_':'-'})}} *
+				</li>
+			{% endfor %}
+		{%endif%}
+	</ul>
+    <div class="panel panel-primary mild-margin">
+    	<div class="panel-heading active-table" id="active_table" name="{{active_table}}"><strong>Table {{active_table}}</strong></div>
+    	<div class="panel-body padding-null">
+	    	<div class="list-group toolbar col-xs-12">
+	    		<div class="toolbar-crud-buttons col-sm-4">
+	    			<a id="add_link" href="{{path('add_item', {'table':active_table})}}"><button class="btn btn-default toolbar-buttons add-row-icon btn-icons-props">Add</button></a>
+		    		<button id="del_link" type="submit" class="btn btn-default toolbar-buttons remove-row-icon btn-icons-props" disabled="true" >Del</button>
+		    		<a id="edit_item"  href="{{path('edit_item', {'table':active_table, 'id':'id_value'})}}"><button type="submit" class="btn btn-default toolbar-buttons edit-row-icon btn-icons-props" id="upd_link" disabled="true">Edit</button></a>
+		    		
+	    		</div>
+	    		
+	    		<div class="toolbar-filter-container col-sm-7">
+    				<label for="filter_col">Column:</label>
+    				<select id="filter_col" >
+    					<option value="{{path('show_table', {'table':active_table, 'column': 'all', 'value': 'values', 'next_page': pagination_obj['next_page'], 'items_x_page': 10})}}">all</option>
+    					{%for table_column in tb_columns%}
+    						{%if table_column == selected_col%}
+    							<option selected="true" value="{{path('show_table', {'table':active_table, 'column': table_column, 'value': 'values', 'next_page': pagination_obj['next_page'], 'items_x_page': 10})}}">{{table_column}}</option>
+    						{%else%}
+    							<option value="{{path('show_table', {'table':active_table, 'column': table_column, 'value': 'values', 'next_page': pagination_obj['next_page'], 'items_x_page': 10})}}">{{table_column}}</option>
+    						{%endif%}
+    					{%endfor%}
+    				</select>
+    				<label for="filter_col_val">Value:</label>
+    				<select id="filter_col_val">
+    					<option value="{{path('show_table', {'table':active_table, 'column': selected_col, 'value': 'values', 'next_page': pagination_obj['next_page'], 'items_x_page': 10})}}">all</option>
+    					{%for column_value in column_values%}
+    						{%if column_value == selected_val%}
+    							<option selected="true" value="{{path('show_table', {'table':active_table, 'column': 'filter_col', 'value': column_value, 'next_page': pagination_obj['next_page'], 'items_x_page': 10})}}">{{column_value}}</option>
+    						{%else%}
+    							<option value="{{path('show_table', {'table':active_table, 'column': 'filter_col', 'value': ((column_value != "") ? column_value : "values"), 'next_page': pagination_obj['next_page'], 'items_x_page': 10})}}">{{column_value}}</option>
+    						{%endif%}
+    					{%endfor%}
+    				</select>
+	    		</div>
+	    		
+	    		<div class="col-sm-1">
+	    			<select id="id_items_x_page" name="items_x_page" class="small-margin text-center">
+	    		
+		    			{%set selected_10, selected_20, selected_50, selected_100 = null, null, null, null%}
+		    			{%if pagination_obj['items_x_page'] == 10%}
+		    				{%set selected_10 = "selected"%}
+		    			{%elseif pagination_obj['items_x_page'] == 20%}
+		    				{%set selected_20 = "selected"%}
+		    			{%elseif pagination_obj['items_x_page'] == 50%} 
+		    				{%set selected_50 = "selected"%}
+		    			{%elseif pagination_obj['items_x_page'] == 100%}
+		    				{%set selected_100 = "selected"%}
+		    			{%endif%}
+		    			<option value="{{path('show_table', {'table':active_table, 'column': selected_col, 'value': selected_val, 'next_page': pagination_obj['next_page'], 'items_x_page': 10})}}" {{selected_10}}>10</option>
+		    			<option value="{{path('show_table', {'table':active_table, 'column': selected_col, 'value': selected_val, 'next_page': pagination_obj['next_page'], 'items_x_page': 20})}}" {{selected_20}}>20</option>
+		    			<option value="{{path('show_table', {'table':active_table, 'column': selected_col, 'value': selected_val, 'next_page': pagination_obj['next_page'], 'items_x_page': 50})}}" {{selected_50}}>50</option>
+		    			<option value="{{path('show_table', {'table':active_table, 'column': selected_col, 'value': selected_val, 'next_page': pagination_obj['next_page'], 'items_x_page': 100})}}"{{selected_100}}>100</option>
+		    			
+		    		</select>
+	    		</div>
+	    		
+	    		
+	    	</div>
+    		<div class="table-responsive col-xs-12">
+				<table class="table table-condensed table-hover table-bordered">
+					<thead>
+					  <tr>
+					  	{%if pagination_obj['items_list'][0]['id'] != null%}
+					  		<th class="">
+					  			<input type="checkbox" value="" id="cb_select_all">
+					  		</th>
+				  		{%endif%}
+						{% for key in pagination_obj['items_list'][0]|keys %}
+						    <th class="">{{key}}</th>
+						{%endfor%}
+					  </tr>
+					</thead>
+					<tbody>
+					  {% for row in pagination_obj['items_list'] %}
+					    {%if row["id"]!= null%}
+					      <tr class="table-rows">
+					      	<td>
+  								<input class="list-selector" type="checkbox" value="{{row["id"]}}">
+  								<a class="remove-row-icon row-icons-props" onclick="return confirm('Are you sure?')"  href="{{path('remove_item', {'table':active_table, 'ids':row["id"]})}}"></a>
+  								<a class="edit-row-icon row-icons-props"  href="{{path('edit_item', {'table':active_table, 'id':row["id"]})}}"></a>
+  								<a class="view-row-icon row-icons-props viewfinder" id="{{row["id"]}}"  href="#" data-toggle="modal" data-target="#myModal"></a>
+							</td>
+					      	{% for items in row%}
+					      		{%set row_value = items%}
+					      		{%if '<' in row_value%}
+					      			{%set row_value = row_value|striptags%}
+					       		{%endif%}
+					       		<td>{{(row_value|truncate(20))}}</td>
+					        {% endfor %}
+					      </tr>
+					    {%else%}
+					    	<tr class="table-rows-emty">
+						    	<td colspan="{{row|length}}">
+						    		No Items Found
+						    	</td>
+					    	</tr>
+					    {%endif%}
+					  {% endfor %}
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="list-group toolbar col-xs-12">
+				<div class="display-inline">
+					{%if pagination_obj['next_page'] > 1%}
+						<!--<div class="display-inline">-->
+							<a class="page-links" href="{{path('show_table', {'table':active_table, 'next_page': 1})}}">
+								1 
+							</a>
+							<a class="page-links" href="{{path('show_table', {'table':active_table, 'next_page': pagination_obj['next_page'] - 1})}}">
+								< 
+							</a> 
+						<!--</div>-->
+					{%endif%}
+						<!--<div class="display-inline">-->
+							<strong id="current_page">Page {{pagination_obj['next_page']}}</strong>
+						<!--</div>-->				
+														 
+					{%if pagination_obj['next_page'] < pagination_obj['total_pages']%}
+						<!--<div class="display-inline">-->
+							<a class="page-links" href="{{path('show_table', {'table':active_table, 'next_page': pagination_obj['next_page'] + 1})}}">
+								> 
+							</a>
+							<a class="page-links" href="{{path('show_table', {'table':active_table, 'next_page': pagination_obj['total_pages']})}}">
+								{{ pagination_obj['total_pages']}} 
+							</a>
+						<!--</div>-->
+					{%endif%}
+				</div>			
+			
+				<div class="pull-right display-inline">
+					<p id="items-x-page">
+						<strong>Items: </strong>{{pagination_obj['from_item']}} - {{pagination_obj['to_item'] }} <strong> of </strong>{{pagination_obj['total_items']}}
+					</p>
+				</div>				
+			</div>
+			
+		</div>
+    </div>   
+{%endblock%}

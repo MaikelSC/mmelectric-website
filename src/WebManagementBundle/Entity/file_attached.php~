@@ -1,0 +1,433 @@
+<?php
+namespace AppBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+
+/**
+* @ORM\Entity(repositoryClass = "AppBundle\Entity\fileAttachedRepository")
+* @ORM\Table(name="tb_file_attached")
+* @UniqueEntity(fields={"name"}, message="This file already exist")
+* @UniqueEntity(fields={"description"}, message="Somebody wrote this before. Please, be creative.")
+*/
+class file_attached
+{
+	/**
+	* @ORM\Column(type="integer")
+	* @ORM\Id
+	* @ORM\GeneratedValue(strategy="AUTO")
+	*/
+	private $id_file_attached;
+
+	/**
+	* 
+	* @ORM\Column(type= "string" , length = 20)
+	* @Assert\NotBlank()
+	*/
+	private $name;
+	
+	/**
+	* 
+	* @ORM\Column(type= "string" , length = 50)
+	* @Assert\NotBlank()
+	*/
+	private $uploaded_by;
+	
+	/**
+	* 
+	* @ORM\Column(type= "string" , length = 300)
+	*/
+	private $description;
+	
+	/**
+	* 
+	* @ORM\Column(type= "datetime")
+	* @Assert\NotBlank()
+	*/
+	private $uploading_date;
+	
+	/**
+	* 
+	* @ORM\Column(type= "string" , length = 300)
+	*/
+	private $url_storage;
+	
+	/**
+	* 
+	* @ORM\ManyToOne(targetEntity = "article")
+	* @ORM\JoinColumn(name="article_id", referencedColumnName="id_article", onDelete="CASCADE")
+	*/
+	private $article;
+		
+	/**
+	* @Assert\File(
+	* 				maxSize = "50M",
+	* 				maxSizeMessage = "Sorry, The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}.",
+	* 				mimeTypes = {"application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation", "application/x-rar-compressed", "application/zip"},
+    *    			mimeTypesMessage = "Unknown file format. Try with a valid type: *.pdf, *.doc/docx, *.xls/xlsx, *.ppt/pptx, *.rar, *.zip"
+	* )
+	* @Assert\NotBlank() 
+	* 
+	*/
+	private $file_uploaded;
+	
+	private $controller_obj;
+	
+	function __construct($controller_obj = NULL)
+	{
+		$this->controller_obj = $controller_obj;
+	}
+
+	  /**
+     * Get id_file_attached
+     *
+     * @return integer 
+     */
+    public function getIdFileAttached()
+    {
+        return $this->id_file_attached;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return file_attached
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set uploaded_by
+     *
+     * @param string $uploadedBy
+     * @return file_attached
+     */
+    public function setUploadedBy($uploadedBy)
+    {
+        $this->uploaded_by = $uploadedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get uploaded_by
+     *
+     * @return string 
+     */
+    public function getUploadedBy()
+    {
+        return $this->uploaded_by;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return file_attached
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set uploading_date
+     *
+     * @param \DateTime $uploadingDate
+     * @return file_attached
+     */
+    public function setUploadingDate($uploadingDate)
+    {
+        $this->uploading_date = $uploadingDate;
+
+        return $this;
+    }
+
+    /**
+     * Get uploading_date
+     *
+     * @return \DateTime 
+     */
+    public function getUploadingDate()
+    {
+        return $this->uploading_date;
+    }
+
+    /**
+     * Set url_storage
+     *
+     * @param string $urlStorage
+     * @return file_attached
+     */
+    public function setUrlStorage($urlStorage)
+    {
+        $this->url_storage = $urlStorage;
+
+        return $this;
+    }
+
+    /**
+     * Get url_storage
+     *
+     * @return string 
+     */
+    public function getUrlStorage()
+    {
+        return $this->url_storage;
+    }
+    
+     /**
+     * Set article
+     *
+     * @param \AppBundle\Entity\article $article
+     * @return file_attached
+     */
+    public function setArticle(\AppBundle\Entity\article $article = null)
+    {
+        $this->article = $article;
+
+        return $this;
+    }
+
+    /**
+     * Get article
+     *
+     * @return \AppBundle\Entity\article 
+     */
+    public function getArticle()
+    {
+        return $this->article;
+    }
+    
+	/**
+     * Set photo_uploaded
+     *
+     * @param string $photo_uploaded
+     * @return photo
+     */
+    public function setFileUploaded($file_uploaded)
+    {
+        $this->file_uploaded = $file_uploaded;
+
+        return $this;
+    }
+
+    /**
+     * Get photo_uploaded
+     *
+     * @return file 
+     */
+    public function getFileUploaded()
+    {
+        return $this->file_uploaded;
+    }
+    
+//--------------------------------------CHOICE LIST---------------------------------------------------------------------------
+    public function getChoiceList()
+    {
+		$common_query = $this->controller_obj->get('app.common_queries');    	
+    	$values_list = $common_query->getAllOrderedByFieldFromTable($this->controller_obj, "AppBundle:article", "id_article" );
+    	$option_list = NULL;
+    	
+    	foreach($values_list as $key=>$value)
+    	{
+    		$option_list[$value->getIdAlbum()] = $value->getName();			
+		}
+		return $option_list;
+	}
+//----------------------------------//----CHOICE LIST------//-----------------------------------------------------------------
+	
+//----------------------------------------CLEAN STRING------------------------------------------------------------------------
+	public function cleanString($string)
+	{
+	   $string = str_replace('', '-', $string); // Replaces all spaces with hyphens.
+	   return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+	}
+//----------------------------------//----CLEAN STRING------//----------------------------------------------------------------
+	
+//----------------------------------------DELETE FILE------------------------------------------------------------------------
+	public function removeFile($file_obj)
+	{
+		$fs = new Filesystem();
+		if($fs->exists($file_obj->getUrlStorage()))
+		{
+			$fs->remove($file_obj->getUrlStorage());
+		}
+	}
+//----------------------------------//----DELETE FILE------//----------------------------------------------------------------
+		
+//----------------------------------------UPLOAD  FILE-------------------------------------------------------------------
+	public function uploadFile($data_obj, $selected_album)
+	{
+		$url_file = "file/article/";
+		$file_name = $this->cleanString($data_obj->getName()).".";
+		$extension = $data_obj->getFileUploaded()->guessExtension();
+		$file_name .= $extension ? $extension : "bin";
+		$fs = new Filesystem();
+		$data_obj->getFileUploaded()->move($url_file, $file_name);		
+		$url_file .= $file_name;
+		return $url_file;
+	}
+//----------------------------------//----UPLOAD FILE-----//-------------------------------------------------
+	
+//---------------------------------------------GENERATE LIST VIEW-------------------------------------------------------------
+	public function showList()
+	{
+		$common_query = $this->controller_obj->get('app.common_queries');
+		$table_list_query = $common_query->getAllOrderedByFieldFromTable($this->controller_obj,"AppBundle:file_attached", 'name');
+		$show_list = array();
+		if(count($table_list_query)>0)
+		{
+			for($i = 0; $i < count($table_list_query); $i++)
+			{
+				$show_list[$i]['id']= $table_list_query[$i]->getIdFileAttached();
+				$show_list[$i]['Uploaded on']= $table_list_query[$i]->getUploadingDate()->format('M-d-Y');
+				$show_list[$i]['Uploaded by']= $table_list_query[$i]->getUploadedBy();
+				$show_list[$i]['Name']= $table_list_query[$i]->getName();
+				$show_list[$i]['Article']= $table_list_query[$i]->getArticle()->getName();
+				$show_list[$i]['Description']= $table_list_query[$i]->getDescription();
+			}
+		}
+		else
+		{
+			$show_list[0]['id']= NULL;
+			$show_list[0]['Uploaded on']= NULL;
+			$show_list[0]['Uploaded by']= NULL;
+			$show_list[0]['Name']= NULL;
+			$show_list[0]['Article']= NULL;
+			$show_list[0]['Description']= NULL;
+		}
+		
+		return $show_list;
+	}
+//------------------------------------------//---GENERATE LIST VIEW---//------------------------------------------------------
+	
+//---------------------------------------------GENERATE FORM FUNCTIONS--------------------------------------------------------
+    public function addElementForm($add_options = NULL)
+    {
+    	/*dump(date("MMMM dd yyyy"));
+    	die;*/
+    	$option_list = $this->getChoiceList();
+		$fields = array("name","article", "uploading_date", "description", "uploaded_by", "file_uploaded");
+		$fields_types = array("text", "choice", "date", "textarea", "text", "file");
+		$options = ($add_options != NULL )? $add_options : array(NULL, array("choices"=>$option_list), array('format' => 'MMMM dd yyyy', 'years'=>range((date('Y')-100), date('Y')), "data" => new \DateTime("now")), NULL, NULL, NULL);
+		$items['entity'] = "\file_attached";
+		$items['fields'] = $fields;
+		$items['options'] = $options;
+		$items['fields_types'] = $fields_types;
+		return $items;
+	}	 
+//---------------------------------------------GENERATE FORM FUNCTIONS--------------------------------------------------------
+	
+//---------------------------------------------PERSIST DATA-------------------------------------------------------------------
+	public function persistData($data_obj)
+	{
+		$new_instance = new file_attached();
+		$new_instance->setName($this->cleanString($data_obj->getName()));
+		$new_instance->setUploadingDate($data_obj->getUploadingDate());
+		$new_instance->setDescription($data_obj->getDescription());					
+		$new_instance->setUploadedBy($data_obj->getUploadedBy());					
+		$em = $this->controller_obj->getDoctrine()->getManager();
+		$current_repo = $em->getRepository("AppBundle:article");
+		$selected_article = $current_repo->find($data_obj->getArticle());
+		$url_file = $this->uploadFile($data_obj, $selected_article);
+		$new_instance->setAlbum($selected_article);
+		$new_instance->setUrlStorage($url_file);	
+		$em->persist($new_instance);
+		$em->flush();
+	}	
+//------------------------------------------//---PERSIST USER DATA---//-------------------------------------------------------
+
+//---------------------------------------------REMOVE ITEM--------------------------------------------------------------------
+	public function removeItems($items_ids)
+	{
+		$items_ids_list;
+		if(!is_array($items_ids)){
+			$items_ids_list[]= $items_ids;
+		}
+		else{
+			$items_ids_list = $items_ids;
+		}
+		$em = $this->controller_obj->getDoctrine()->getManager();
+		$current_repo = $em->getRepository("AppBundle:file_attached");
+		$items_found = array();		
+		for($i = 0; $i < count($items_ids_list); $i++){
+			$current_row = $current_repo->find($items_ids_list[$i]);
+			$items_found[$i] = $current_row;
+			$this->removeFile($current_row);
+			$em->remove($current_row);
+		}
+		if(count($items_found) > 0){
+			$em->flush();
+			return true;
+		}
+		else{
+			return false;
+		}		
+	}
+//------------------------------------------//---REMOVE ITEM---//-------------------------------------------------------------
+	
+//------------------------------------------//-----UPDATE ITEM FORM----//-----------------------------------------------------
+	 public function updateItemForm($item_id)
+    {
+		$option_list = $this->getChoiceList();
+		$em = $this->controller_obj->getDoctrine()->getManager();
+		$entity_repo = $em->getRepository("AppBundle:file_attached");
+		$item_found = $entity_repo->find($item_id);
+		$options = array(
+						 array("data"=>$item_found->getName(), 'disabled'=>TRUE),
+						 array("choices"=>$option_list, "preferred_choices"=> array($item_found->getAlbum()->getIdAlbum()), 'disabled'=>TRUE),
+						 array("data"=>$item_found->getUploadingDate(), 'format' => 'MMMM dd yyyy', 'years'=>range((date('Y')-100), date('Y'))),
+						 array("data"=>$item_found->getDescription()),
+						 array("data"=>$item_found->getUploadedBy(), 'disabled'=>TRUE), 
+						 array("data"=>NULL, 'disabled'=>TRUE)
+						);
+		$form_array['items'] = $this->addElementForm($options);
+		$form_array['instance'] = $item_found;
+		return $form_array;
+	}
+//------------------------------------------//-----UPDATE ITEM FORM----//-----------------------------------------------------
+    
+//-----------------------------------------------UPDATE ITEM ACTION-----------------------------------------------------------
+    public function updateData($data_obj, $item_id)
+    {
+		$em = $this->controller_obj->getDoctrine()->getManager();
+		$item = $em->getRepository("AppBundle:file_attached")->find($item_id);
+		$item->setName($data_obj->getName());			
+		$item->setUploadingDate($data_obj->getUploadingDate());
+		$item->setDescription($data_obj->getDescription());		
+		$item->setUploadedBy($data_obj->getUploadedBy());		
+		$em->flush();
+	}
+//-----------------------------------------//------UPDATE ITEM ACTION----//---------------------------------------------------
+   
+}

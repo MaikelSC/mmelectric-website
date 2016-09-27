@@ -1,0 +1,18 @@
+<div>
+	<div class="mild-padding margin-null text-center menu-title-icon clearfix">
+		<p class="menu-title">
+			<a href="{{path('login_success')}}#table-link">System Database Tables</a>
+		</p>
+	</div>
+	<ul class="system-tables padding-null">				
+		{% for item in back_end_list %}
+			<a href="{{path('show_table', {'table':item.getTbName(), "next_page" : 1, "items_x_page" : 10})}}#table-link" >
+				<li id="{{item.getTbName()}}"  class="mild-padding table-icon tables-name" >
+					{{item.getTbName()|replace({'tb_':'Table ', '_':'-'})}}
+				</li>
+			</a>
+		{% else %}
+			<li><em>No tables found</em></li>
+		{% endfor %}
+	</ul>
+</div>

@@ -1,0 +1,24 @@
+{%extends "mmelectric/templates/temp-sections-mmelectric.html.twig"%}
+{% block title%}
+	Resume - M&M Electric of Central Florida, Inc.
+{% endblock title%}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('/resources/mmelectric/css/custom/main.css')}}"/>
+	<link rel="stylesheet" href="{{asset('/resources/mmelectric/css/custom/docs-temp.css')}}"/>
+{% endblock %}
+
+{%block quickQuote%}
+
+{%endblock quickQuote%}
+
+{%block content%}
+	<div class="container info-cont">
+		<h2 class="text-center docs-title">Company Resume</h2>
+		{%for resume_article in resume%}
+			<h4 class="item-title">{{resume_article['title']|raw}}</h4>
+			<div class="col-xs-12">				
+				{{resume_article['content']|raw}}
+			</div>
+		{%endfor%}
+	</div>
+{%endblock content%}

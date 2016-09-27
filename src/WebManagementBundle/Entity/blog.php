@@ -1,0 +1,360 @@
+<?php
+namespace WebManagementBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+/**
+* @ORM\Entity(repositoryClass = "WebManagementBundle\Entity\blogRepository")
+* @ORM\Table(name="tb_blog")
+* @UniqueEntity(fields={"title"}, message="Sorry, topic already exist.")
+* @UniqueEntity(fields={"content"}, message="Somebody wrote this before. Please, be creative.")
+*/
+class blog {
+	/**
+	* 
+	* @ORM\Column(type= "integer") 
+	* @ORM\Id
+	* @ORM\GeneratedValue(strategy = "AUTO")
+	*/
+	private $id_blog;
+	
+	
+	/**
+	* 
+	* @ORM\Column(type="string", length = 300)
+	* @Assert\NotBlank()
+	*/
+	private $title;
+	
+	/**
+	* 
+	* @ORM\Column(type= "datetime")
+	* @Assert\NotBlank()
+	*/
+	private $posting_date;
+	
+	/**
+	* 
+	* @ORM\ManyToOne(targetEntity = "writer")
+	* @ORM\JoinColumn(name="writer_id", referencedColumnName="id_writer", onDelete="CASCADE")
+	*/
+	private $writer;
+	/**
+	* 
+	* @ORM\Column(type="string", length= 1000000)
+	* @Assert\NotBlank()
+	*/
+	private $content;
+	
+	private $select_writer;
+	
+	private $controller_obj;
+	
+	function __construct($controller_obj = NULL)
+	{
+			$this->controller_obj = $controller_obj;
+	}
+
+
+    /**
+     * Get id_blog
+     *
+     * @return integer 
+     */
+    public function getIdBlog()
+    {
+        return $this->id_blog;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return blog
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set posting_date
+     *
+     * @param \DateTime $postingDate
+     * @return blog
+     */
+    public function setPostingDate($postingDate)
+    {
+        $this->posting_date = $postingDate;
+
+        return $this;
+    }
+
+    /**
+     * Get posting_date
+     *
+     * @return \DateTime 
+     */
+    public function getPostingDate()
+    {
+        return $this->posting_date;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     * @return blog
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string 
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Set writer
+     *
+     * @param \WebManagementBundle\Entity\writer $writer
+     * @return blog
+     */
+    public function setWriter(\WebManagementBundle\Entity\writer $writer = null)
+    {
+        $this->writer = $writer;
+
+        return $this;
+    }
+
+    /**
+     * Get writer
+     *
+     * @return \WebManagementBundle\Entity\writer 
+     */
+    public function getWriter()
+    {
+        return $this->writer;
+    }
+    /**
+     * Set select_writer
+     *
+     * @param select_writer
+     * @return blog
+     */
+    public function setSelectWriter($select_writer)
+    {
+        $this->select_writer = $select_writer;
+
+        return $this;
+    }
+
+    /**
+     * Get select_writer
+     *
+     * @return select_writer 
+     */
+    public function getSelectWriter()
+    {
+        return $this->select_writer;
+    }
+    
+    //--------------------------------------CHOICE LIST---------------------------------------------------------------------------
+    public function getChoiceList($entity, $order, $getID )
+    {
+		$common_query = $this->controller_obj->get('app.common_queries');	
+    	$values_list = $common_query->getAllOrderedByFieldFromTable($this->controller_obj, "WebManagementBundle:".$entity, $order );
+    	$option_list = NULL;
+    	
+    	foreach($values_list as $key=>$value)
+    	{
+				$option_list[$value->$getID()] = $value->getName();
+		}
+		return $option_list;
+	}
+//----------------------------------//----CHOICE LIST------//-----------------------------------------------------------------
+
+//----------------------------------------CLEAN STRING------------------------------------------------------------------------
+	public function cleanString($string)
+	{
+	   $string = str_replace('', '-', $string); // Replaces all spaces with hyphens.
+	   return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+	}
+//----------------------------------//----CLEAN STRING------//----------------------------------------------------------------
+    	
+//---------------------------------------------GENERATE LIST VIEW-------------------------------------------------------------
+	public function showList($column, $value)
+	{
+		$common_query = $this->controller_obj->get('app.common_queries');
+		$table_list_query = array();
+		if(($column != NULL) && ($value != NULL)){
+			$table_list_query = $common_query->getRowFromTableWhereColumnValue($this->controller_obj,"WebManagementBundle:blog", $column, $value, 'posting_date');
+		}
+		else{
+			$table_list_query = $common_query->getAllOrderedByFieldFromTable($this->controller_obj,"WebManagementBundle:blog", 'posting_date');
+		}
+		$show_list = array();
+		if(count($table_list_query)>0)
+		{
+			for($i = 0; $i < count($table_list_query); $i++)
+			{
+				$show_list[$i]['id']= $table_list_query[$i]->getIdBlog();				
+				$show_list[$i]['Posting Date']= $table_list_query[$i]->getPostingDate()->format('M-d-Y');
+				$show_list[$i]['Written By']= $table_list_query[$i]->getWriter()->getName();
+				$show_list[$i]['Title']= $table_list_query[$i]->getTitle();
+				$show_list[$i]['Content']= $table_list_query[$i]->getContent();
+			}
+		}
+		else
+		{
+			$show_list[0]['id']= NULL;
+			$show_list[0]['Posting Date']= NULL;
+			$show_list[0]['Written By']= NULL;
+			$show_list[0]['Title']= NULL;
+			$show_list[0]['Content']= NULL;
+		}
+		
+		return $show_list;
+	}
+//------------------------------------------//---GENERATE LIST VIEW---//------------------------------------------------------
+	
+//---------------------------------------------GENERATE FORM FUNCTIONS--------------------------------------------------------
+    public function addElementForm($add_options = NULL)
+    {
+    	$writer_option_list = $this->getChoiceList("writer", "name", "getIdWriter");
+		$fields = array("title","posting_date", "select_writer", "content");
+		$fields_types = array("text", "date", "choice", "texteditor");
+		$options = ($add_options != NULL )? $add_options : array(NULL, array('format' => 'MMMM dd yyyy', 'years'=>range((date('Y')-100), date('Y')), "data" => new \DateTime("now")), array("choices"=>$writer_option_list),NULL);
+		$items['entity'] = "\blog";
+		$items['fields'] = $fields;
+		$items['options'] = $options;
+		$items['fields_types'] = $fields_types;
+		return $items;
+	}	 
+//---------------------------------------------GENERATE FORM FUNCTIONS--------------------------------------------------------
+	
+//---------------------------------------------PERSIST DATA-------------------------------------------------------------------
+	public function persistData($data_obj)
+	{
+		$new_instance = new blog();
+		$new_instance->setTitle($this->cleanString($data_obj->getTitle()));
+		$new_instance->setPostingDate($data_obj->getPostingDate());
+		$new_instance->setContent($data_obj->getContent());					
+		$em = $this->controller_obj->getDoctrine()->getManager();
+		$writer_repo = $em->getRepository("WebManagementBundle:writer");
+		$writer = $writer_repo->find($data_obj->getSelectWriter());
+		$new_instance->setWriter($writer);
+		$em->persist($new_instance);
+		$em->flush();
+	}	
+//------------------------------------------//---PERSIST USER DATA---//-------------------------------------------------------
+
+//---------------------------------------------REMOVE ITEM--------------------------------------------------------------------
+	public function removeItems($items_ids)
+	{
+		$items_ids_list;
+		if(!is_array($items_ids)){
+			$items_ids_list[]= $items_ids;
+		}
+		else{
+			$items_ids_list = $items_ids;
+		}
+		$em = $this->controller_obj->getDoctrine()->getManager();
+		$current_repo = $em->getRepository("WebManagementBundle:blog");
+		$items_found = array();		
+		for($i = 0; $i < count($items_ids_list); $i++){
+			$current_row = $current_repo->find($items_ids_list[$i]);
+			$items_found[$i] = $current_row;
+			$em->remove($current_row);
+		}
+		if(count($items_found) > 0){
+			$em->flush();
+			return true;
+		}
+		else{
+			return false;
+		}		
+	}
+//------------------------------------------//---REMOVE ITEM---//-------------------------------------------------------------
+	
+//------------------------------------------//-----UPDATE ITEM FORM----//-----------------------------------------------------
+	 public function updateItemForm($item_id)
+    {
+    	$writer_option_list = $this->getChoiceList("writer", "name", "getIdWriter");
+		$em = $this->controller_obj->getDoctrine()->getManager();
+		$entity_repo = $em->getRepository("WebManagementBundle:blog");
+		$item_found = $entity_repo->find($item_id);
+		$options = array(
+						 array("data"=>$item_found->getTitle(), 'disabled'=>FALSE),						 
+						 array("data"=>$item_found->getPostingDate(), 'format' => 'MMMM dd yyyy', 'years'=>range((date('Y')-100), date('Y'))),
+						 array("choices"=>$writer_option_list, "preferred_choices"=> array($item_found->getWriter()->getIdWriter()), 'disabled'=>FALSE),
+						 array("data"=>$item_found->getContent()),
+						);
+		$form_array['items'] = $this->addElementForm($options);
+		$form_array['instance'] = $item_found;
+		return $form_array;
+	}
+//------------------------------------------//-----UPDATE ITEM FORM----//-----------------------------------------------------
+    
+//-----------------------------------------------UPDATE ITEM ACTION-----------------------------------------------------------
+    public function updateData($data_obj, $item_id)
+    {
+		$em = $this->controller_obj->getDoctrine()->getManager();
+		$item = $em->getRepository("WebManagementBundle:blog")->find($item_id);
+		$item->setTitle($data_obj->getTitle());			
+		$item->setPostingDate($data_obj->getPostingDate());
+		$writer_repo = $em->getRepository("WebManagementBundle:writer");
+		$writer = $writer_repo->find($data_obj->getSelectWriter());
+		$item->setWriter($writer);
+		$item->setContent($data_obj->getContent());
+		$em->flush();
+	}
+//-----------------------------------------//------UPDATE ITEM ACTION----//---------------------------------------------------
+//-------------------------------------------------VIEW ITEM------------------------------------------------------------------
+	public function viewFinder($id)
+	{
+		$common_query = $this->controller_obj->get('app.common_queries');
+		$row = $common_query->getRowFromTableWhereColumnValue($this->controller_obj, "WebManagementBundle:blog", "id_blog", $id);
+		$row_array = array();
+		$row_array["content"] = "<div>"."<strong> Id Blog: </strong>".$row[0]->getIdBlog()."</div>
+								<div>"."<strong> Title: </strong> ".$row[0]->getTitle()."</div>
+								<div>"."<strong> Posting Date: </strong> ".$row[0]->getPostingDate()->format('M-d-Y')."</div>
+								<div>"."<strong> Written By: </strong> ".$row[0]->getWriter()->getName()."</div>
+								<div><strong> Content: </strong></div><div class = 'bg-content'>".$row[0]->getContent()."</div>";
+		
+		return $row_array;
+	}
+//----------------------------------//-------------VIEW ITEM-----------//---------------------------------------------------
+
+
+//-------------------------------------------------FILTER COLUMNS-----------------------------------------------------------
+
+	public function getfilterColumns()
+	{
+		return array("posting_date", "writer_id");
+	}
+
+//---------------------------------//----------------FILTER COLUMNS-----//--------------------------------------------------
+ 
+}

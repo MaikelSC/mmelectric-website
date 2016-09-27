@@ -1,0 +1,18 @@
+{%extends "mmelectric/templates/temp-base-mmelectric.html.twig"%}
+{% block title%}
+	M&M Electric of Central Florida, Inc.
+{% endblock title%}
+	{%block menulinks%}				
+		<li><a class="nav-link menu-link-font" href="#home">Home</a></li>
+		<li><a class="nav-link menu-link-font" href="#services">Services</a></li>
+		<li><a class="nav-link menu-link-font" href="#projects">Projects</a></li>
+		<li><a class="nav-link menu-link-font" href="#about">About</a></li>
+		<li><a class="nav-link menu-link-font" href="#contact">Contact us</a></li>
+	{%endblock menulinks%}
+{% block javascripts%}
+	<script type="text/javascript" src="{{asset('/resources/mmelectric/js/customs/quick-quote.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/resources/mmelectric/js/customs/sliding-tab.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/resources/mmelectric/js/customs/scroll-effect.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/resources/mmelectric/js/customs/google-map.js')}}"></script>
+	
+{%endblock%}

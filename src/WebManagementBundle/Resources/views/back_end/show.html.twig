@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>back_end</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id_back_end</th>
+                <td>{{ entity.idbackend }}</td>
+            </tr>
+            <tr>
+                <th>Tb_name</th>
+                <td>{{ entity.tbname }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ entity.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('back_end') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('back_end_edit', { 'id': entity.id_back_end }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

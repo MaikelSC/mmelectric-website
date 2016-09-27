@@ -1,0 +1,114 @@
+{%extends "mmelectric/templates/temp-root-mmelectric.html.twig"%}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('/resources/mmelectric/css/custom/main.css')}}"/>
+{% endblock %}
+
+{% block body%}
+	
+	<nav class="navbar navbar-default navbar-fixed-top">
+		
+		<div class="navbar-container">
+		
+			<div class="navbar-header">
+				<button class="navbar-toggle" aria-controls="navbar" aria-expanded="true" data-target="#navbar" data-toggle="collapse" type="button">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<div class="logo-mmelectric">
+					
+				</div>
+				<div class="mmelectric-name hidden-md hidden-sm hidden-xs">
+					
+				</div>
+			</div>
+			
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					{%block menulinks%}
+					
+					{%endblock menulinks%}
+				</ul>
+			</div>
+			
+		</div>
+		
+	</nav>
+	
+	<div id="nav-spacer" class="navbar navbar-default">
+		{%block quickQuote%}
+			<div class="quick-quote-container">
+		
+				<div class="quick-quote">
+					<form method="post" enctype="multipart/form-data">
+						<h3 class="text-center quote-title">Requesting quote:</h3>
+						<div class="container">	
+							{{form_errors(form)}}			
+							<div class="col-sm-6 quick-quote-items">
+								{{form_row(form.client_name)}}							
+								{{form_row(form.email)}}							
+								{{form_row(form.phone)}}							
+								{{form_row(form.job_type)}}	
+								{{form_row(form._token)}}
+							</div>	
+							<div class="col-sm-6 quick-quote-items floating-right">
+								{{form_row(form.description)}}														
+							</div>	
+							<div class="col-sm-6 qq-info">
+								<p><strong>IMPORTANT!!!</strong></p>
+								<p>* Please, fill out this form with accurate info. Use an accesible <strong>Email</strong> and <strong>Phone</strong> number.
+								Do not leave out any detail and we will provide you with an unbeatable quotation. </p>
+								<p>* Prefer not to write? Then go to <strong><a id="qq-contact-link" href="{{path("home", {})}}#contact">Contact us</a></strong> and make us a call.</p>											
+							</div>
+							
+						</div>
+						<div class="row text-center quick-quote-buttons">
+						    <button type="submit" class="btn btn-default">Submit</button>			   
+						    <button id="btn-close-qq" type="button" class="btn btn-default">Cancel</button>
+							<button type="reset" class="btn btn-danger">Reset</button>
+						</div>
+					</form>
+				</div>
+				
+				<div class="quick-quote-tab">
+					<div class="qq-tab-text left-arrow-icon">
+						Quick Quote!
+					</div>
+					
+				</div>
+			</div>
+		{%endblock quickQuote%}
+	</div>	
+	
+	
+	{%block content%}
+	
+	{%endblock%}
+	
+	<footer class="pg-footer">
+		{{render(controller('MMElectricBundle:Main:contractorsList'))}}
+		
+		<div class="container text-center footer-links-container">
+			
+			<a href="{{path("resume")}}">Company Resume</a>				
+			<span> | </span>
+			<a href="{{path("policy")}}">Privacy Policy</a>
+			<span> | </span>
+			<a href="{{path("terms")}}">Terms and Conditions</a>				
+			<span> | </span>
+			<a href="{{path("faqs")}}">FAQs</a>
+					
+		</div>
+		<div class="footer-company-name">
+			<div class="container">
+				<div class="col-xs-12 text-center">&copy; Copyright 2002 - 2016. &reg; All rights reserved. M&M Electric of Central Florida, Inc.</div>
+				<div class="text-center">Oficial Website. Powered by <cite class="developer"><a href="https://www.linkedin.com/in/maikel-sc-052686" target="_blank"> Maikel Y. Sanudo Clemente.</a></cite></div>
+			</div>
+		</div>		
+	</footer>
+	
+{% endblock body%}
+
+

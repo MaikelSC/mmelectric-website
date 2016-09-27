@@ -1,0 +1,25 @@
+.panel-login{
+	width: 280px;
+	-webkit-box-shadow: 0.15em 0.15em .5em .15em #0c0c10;
+	-moz-box-shadow: 0.15em 0.15em .5em .15em #0c0c10;
+	box-shadow: 0.15em 0.15em .5em .15em #0c0c10;
+}
+.center-cont{
+	margin: auto;
+}
+.center-child {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.title-panel{
+	font-weight: bolder;	
+}
+button.btn-login{
+	width: 75px;
+}

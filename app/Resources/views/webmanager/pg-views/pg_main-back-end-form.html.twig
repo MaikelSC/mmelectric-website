@@ -1,0 +1,43 @@
+{%extends 'webmanager/pg-views/pg_main-back-end.html.twig'%}
+{%block content%}
+	<ul id="id_dependencies" hidden="true">
+		{% if tb_dependencies_arr|length == 0%}
+			<li>
+				No Dependencies...
+			</li>
+		{%else%}
+			{% for dependencies in tb_dependencies_arr %}				
+				<li class="dependecies-icon">
+					{{dependencies|replace({'tb_':'Table ', '_':'-'})}} *
+				</li>
+			{% endfor %}
+		{%endif%}
+	</ul>
+	<div class="panel panel-primary panel-sizing mild-margin">
+		<div class="panel-heading active-table" name="{{active_table}}">
+			<strong>Table {{active_table}}</strong>			
+		</div>
+    	<div class="panel-body">
+    		<form method="post" enctype="multipart/form-data">
+				<div class="row">
+				{{form_errors(form)}}
+					{%for child in form%}
+						{%set col_size = "col-sm-6"%}				
+						{%if child.vars.block_prefixes[2] == 'textarea'%}
+							{%set col_size = "col-sm-12"%}
+						{%endif%}				
+						<div class="{{col_size}}">
+							{{form_row(child)}}
+							{{form_errors(child)}}							
+						</div>						
+					{%endfor%}
+				</div>
+				<div class="row text-center mild-margin-top">
+				    <button type="submit" class="btn btn-default">Submit</button>			   
+				    <a class="btn btn-default" href="{{path('show_table', {'table':active_table})}}">Cancel</a>
+					<button type="reset" class="btn btn-danger">Reset</button>
+				</div>
+			</form>
+		</div>
+	</div>		
+{%endblock content%}

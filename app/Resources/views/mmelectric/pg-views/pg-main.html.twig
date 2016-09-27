@@ -1,0 +1,192 @@
+{%extends "mmelectric/templates/temp-main-mmelectric.html.twig"%}
+
+{%block content%}
+	<div class="pg-content">	
+		<div id="home" class="cl-home">
+			<!--<h4 class="text-center">Home</h4>-->
+			<div id="myCarousel" class="carousel slide" data-ride="carousel" data-pause="false">
+			  <!-- Indicators -->
+			  <ol class="carousel-indicators">
+			  	{% for home_articles in category["home"] %}
+			  		{% if loop.index0 != 0 %}
+			    		<li data-target="#myCarousel" data-slide-to="{{loop.index0}}" style="background: url({{asset(home_articles["url"])}}); background-size: 100% 100%;"></li>
+			    	{%else%}
+			    		<li data-target="#myCarousel" data-slide-to="{{loop.index0}}" class="active"  style="background: url({{asset(home_articles["url"])}}); background-size: 100% 100%;"></li>
+			    	{% endif %}
+			    {% endfor %}
+			  </ol>
+
+			  <!-- Wrapper for slides -->
+			<div class="carousel-inner" role="listbox">
+				{% for home_articles in category["home"] %}
+					{% if loop.index != 1%}
+				    	<div class="item carousel-item">
+				    {% else%}
+				    	<div class="item active carousel-item">
+				    {% endif %}	
+				    	<div class="carousel-img" style= "background: url({{asset(home_articles["url"])}}); background-size: 100% 100%;" ></div>			    	
+					    <!--<img src="{{asset(home_articles["url"])}}" alt="{{home_articles["title"]}}"/>-->
+					    <div class="carousel-caption">
+					        <h2>{{home_articles["title"]|raw}}</h2>
+					        <div class="caption-content">{{home_articles["content"]|raw}}</div>
+					    </div>				    	
+				    </div>
+			    {% endfor %}
+			</div>
+			  <!-- Left and right controls -->
+			  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+			    <!--<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>-->
+			    <span class=""></span>
+			  </a>
+			  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+			   <!-- <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
+			    <span class=""></span>
+			  </a>
+			</div>	
+		</div>
+		
+		<div id="services" class="cl-services">
+			<h1 class="text-center menu-topics">What do we do?</h1>
+			<div class="container text-center ">
+				{% for services_articles in category["services"] %}
+					<div class="col-md-3 col-sm-4 col-xs-6 service-column">
+						<div class="service-item-container img-circle">
+							<img class="img-responsive services-img" src="{{asset(services_articles["url"])}} " alt="{{services_articles["title"]}}"/>
+						</div>
+						<div class="text-center services-description">{{services_articles["title"]}}</div>
+					</div>
+					{%if (loop.index% 2) == 0 %}
+						<div class="clearfix visible-xs-block"></div>
+					{%endif%}
+					{%if (loop.index% 3) == 0 %}
+						<div class="clearfix visible-sm-block"></div>
+					{%endif%}
+					{%if (loop.index% 4) == 0 %}
+						<div class="clearfix visible-md-block"></div>
+					{%endif%}
+					
+				{% endfor%}
+			</div>
+		</div>
+		
+		<div id="projects" class="cl-projects">
+			<h1 class="text-center menu-topics">What have we done?</h1>
+			<div class="container">
+				{% for projects_articles in category["projects"]["items_list"] %}
+					<div class="col-md-4 project-container">						
+							<a href="{{path('show_projects')}}#{{projects_articles['id']}}"><img class="img-responsive img-thumbnail project-articles-img" src="{{asset(projects_articles["url"])}}" alt="{{projects_articles["title"]}}"/></a>
+							<a href="{{path('show_projects')}}#{{projects_articles['id']}}"><div class="project-title">{{projects_articles["title"]}}</div></a>
+							<cite class="project-date"> {{projects_articles["date"]}}</cite>
+							<p class="project-content">{{projects_articles["content"]|striptags|truncate(300)}}
+								{%if projects_articles["content"]|length > 300 %}
+									<a href="{{path('show_projects')}}#{{projects_articles['id']}}"> more &raquo;</a>
+								{%endif%}
+							</p>					
+					</div>
+					{%if (loop.index% 3) == 0 %}
+						<div class="clearfix visible-md-block"></div>
+					{%endif%}
+				{% endfor%}
+			</div>
+			
+			<!-- Projects Pagination -->
+			{%if category["projects"]['total_pages'] > 1 %}
+				<div class="list-group toolbar">
+					<div class="projects-pages">
+						{%if category["projects"]['next_page'] > 1%}
+								<a class="page-links page-numbers" href="{{path('home', {'next_page': 1})}}#projects">1</a>
+								<a class="page-links" href="{{path('home', {'next_page': category["projects"]['next_page'] - 1})}}#projects">
+									<
+								</a> 
+							<!--</div>-->
+						{%endif%}
+							<!--<div class="display-inline">-->
+								<strong id="current_page">Page {{category["projects"]['next_page']}}</strong>
+							<!--</div>-->				
+															 
+						{%if category["projects"]['next_page'] < category["projects"]['total_pages']%}
+							<!--<div class="display-inline">-->
+								<a class="page-links" href="{{path('home', {'next_page': category["projects"]['next_page'] + 1})}}#projects">
+									>
+								</a>
+								<a class="page-links page-numbers" href="{{path('home', {'next_page': category["projects"]['total_pages']})}}#projects">
+									{{category["projects"]['total_pages']}}
+								</a>
+						{%endif%}
+					</div>			
+				
+					<div class="pull-right projects-counter">
+						<p id="items-x-page">
+							<strong>Projects: </strong>{{category["projects"]['from_item']}} - {{category["projects"]['to_item'] }} <strong> of: </strong>{{category["projects"]['total_items']}}
+						</p>
+					</div>				
+				</div>
+			{%endif%}
+			<!-- Projects Pagination -->
+		</div>
+		
+		<div id="about" class="cl-about">
+			<h1 class="text-center menu-topics">Who we are?</h1>
+				<div class="container">
+				{% for about_articles in category["about"] %}					
+						{%if about_articles["url"]%}
+						<img class="img-responsive about-img" src="{{asset(about_articles["url"])}}" alt="{{about_articles["title"]}}"/>
+						{%endif%}
+						<h4 class="about-title"><strong>{{about_articles["title"]}}</strong></h4>						
+						<div class="col-md-12">
+							<div class="about-content">{{about_articles["content"]|raw}}</div>						
+						</div>
+				{% endfor%}
+				</div>
+				
+				<div class="container">
+					<h3 class="certifications-title"><strong class="">Our Certifications:</strong></h3>
+				{% for certifications_articles in category["certifications"] %}					
+					<div class="col-sm-6 col-md-3">
+						<div class="certification-container">					
+							<div class="certification-img-container"><img class="img-responsive" src="{{asset(certifications_articles["url"])}}" alt="{{certifications_articles["title"]}}"/></div>
+							<div class="certification-content">{{certifications_articles["content"]|raw}}</div>	
+						</div>					
+					</div>
+					{%if (loop.index% 2) == 0 %}
+						<div class="clearfix visible-xs-block"></div>
+					{%endif%}
+					{%if (loop.index% 4) == 0 %}
+						<div class="clearfix visible-md-block"></div>
+					{%endif%}
+				{% endfor%}
+				</div>
+		</div>
+		
+		<div id="contact" class="cl-contact">
+			<h1 class="text-center menu-topics">Where we are?</h1>
+			<div class="container">
+				<div class="col-md-6 map-container">
+					<div id="map" >
+					  	<p>Loading Map...</p>
+		    		</div>
+				</div>
+				
+	    		<div class="col-md-6 contacts-container">
+		    		{% for contacts in category["contact"] %}
+						
+							<div class="contact-content">
+							
+								<p class = "contact-id" lat = "{{contacts["latitude"]}}" lng = "{{contacts["longitude"]}}">
+									<strong>{{contacts["description"]|raw}}</strong>
+								</p>
+								<p class="contact-info">
+									{{contacts["street"]|raw}} <br/>
+									{{contacts["city"]|raw}}, {{contacts["state"]|raw}}. {{contacts["country"]|raw}} {{contacts["zipcode"]|raw}}<br/>
+									<strong>Ph: </strong> {{contacts["phone1"]|raw}} {{(contacts["phone2"]|raw) ? ',  ' ~ (contacts["phone2"]|raw) : ""}}<br/>
+									<strong>Email: </strong> {{contacts["email"]|raw}}
+								</p>
+								
+							</div>						
+						
+					{% endfor%}	 
+				</div>   		
+			</div>
+		</div>		
+	</div>
+{%endblock content%}

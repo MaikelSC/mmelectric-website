@@ -1,0 +1,16 @@
+<div class="contractors-header">CONTRACTORS</div>
+<div class="container contractors-container">
+	<div class="row-fluid contractors-wrapper">
+		{%for contractors_val in contractors%}
+			<div class="col-sm-5 col-sm-5 col-sm-offset-1 footer-contractors-name">	
+				
+				<div class="contractors-name">
+					 {{contractors_val['title']|raw}}
+				</div>
+				<a target="_blank" class="contractors-link" href="{{contractors_val['url']}}">
+					{{contractors_val['url']|truncate(35)}}
+				</a>			
+			</div>
+		{%endfor%}
+	</div>	
+</div>

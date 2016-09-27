@@ -1,0 +1,27 @@
+security:
+
+    providers:
+        my_db_provider:
+            entity:
+                class: WebManagementBundle:user
+                property: username
+
+    encoders:
+        WebManagementBundle\Entity\user:
+            algorithm: bcrypt
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt|error)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            provider: my_db_provider
+            form_login:
+                login_path: login_route
+                check_path: login_check
+                default_target_path: login_success
+            logout:
+                path: /logout
+                target: /wms/login

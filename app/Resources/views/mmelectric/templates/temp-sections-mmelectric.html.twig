@@ -1,0 +1,33 @@
+{%extends "mmelectric/templates/temp-base-mmelectric.html.twig"%}
+
+{%block menulinks%}
+	{%block home%}
+		<li><a class="nav-link menu-link-font" href="{{path("home", {})}}#home">Home</a></li>
+	{%endblock home%}	
+	
+	{%block services%}
+		<li><a class="nav-link menu-link-font" href="{{path("home", {})}}#services">Services</a></li>
+	{%endblock services%}
+	
+	{%block projects%}
+		<li><a class="nav-link menu-link-font" href="{{path("home", {})}}#projects">Projects</a></li>
+	{%endblock projects%}
+	
+	{%block about%}
+		<li><a class="nav-link menu-link-font" href="{{path("home", {})}}#about">About</a></li>
+	{%endblock about%}
+	
+	{%block contact%}
+		<li><a class="nav-link menu-link-font" href="{{path("home", {})}}#contact">Contact us</a></li>
+	{%endblock contact%}
+{%endblock menulinks%}
+
+{% block javascripts%}
+	<script type="text/javascript" src="{{asset('/resources/mmelectric/js/customs/quick-quote.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/resources/mmelectric/js/customs/sliding-tab.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/resources/mmelectric/js/customs/show-album.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/resources/mmelectric/js/customs/photoShow.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/resources/mmelectric/js/customs/viewfinder.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/resources/mmelectric/js/customs/scroll-effect.js')}}"></script>
+	
+{%endblock%}

@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>		
+        <meta charset="UTF-8" />
+        <meta name="keywords" content="Services, Projects, About, Contact, Electrical, Company, Orlando, Florida">
+        <meta name="description" content="Electrical Company in Orlando, Central Florida, US">
+        <meta name="author" content="Maikel Y Sanudo Clemente">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>{% block title %}{% endblock %}</title>        
+        <link rel="stylesheet" href="{{asset('libs/bootstrap/bootstrap.min.css')}}"/>
+        <link rel="stylesheet" href="{{asset('libs/bootstrap/bootstrap-theme.min.css')}}"/>        
+        <link rel="icon" type="image/x-icon" href="{{ asset('mm-electric-icon.ico') }}" />
+        <link rel="stylesheet" href="{{asset('libs/font-awesome-4.4.0/css/font-awesome.min.css')}}"/>
+		<link rel="stylesheet" href="{{asset('libs/summernote/summernote.css')}}"/>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+    	{% block body %}{% endblock %}               
+        <script type="text/javascript" src="{{asset('libs/jquery/jquery-1.11.1.js')}}"></script>
+        <script type="text/javascript" src="{{asset('libs/bootstrap/bootstrap.min.js')}}"></script>
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+        <script type="text/javascript" src="{{asset('/resources/mmelectric/js/customs/messagePopup.js')}}"></script> 
+        <script type="text/javascript" src="{{asset('/resources/mmelectric/js/customs/messageError.js')}}"></script> 
+        <script type="text/javascript" src="{{asset('/resources/webmanager/js/customs/ajax-handler.js')}}"></script> 
+        <script type="text/javascript" src="{{asset('/libs/summernote/summernote.js')}}"></script>
+        {% block javascripts %}{% endblock %} 
+    </body>
+</html>

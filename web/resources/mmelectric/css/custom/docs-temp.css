@@ -1,0 +1,53 @@
+.info-cont{
+	background: #f2f2f2;
+	margin: 2% auto 2% auto;
+	border: 1px groove #707070;
+	padding: 3%;
+	min-height: 400px;
+	font-family: Palatino,"Palatino Linotype","Palatino LT STD","Book Antiqua",Georgia,serif;
+	font-size: .9em;
+}
+.docs-title{
+	font-family: "Eras ITC", "Eras Light ITC", Verdana, Geneva, "Trebuchet MS", Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 1.75em;
+	margin-bottom: 15%;
+}
+.item-title{
+		font-weight: bold;
+		font-size: 1.15em;
+		text-align: left;
+		margin-bottom: 1%;
+		border-bottom: 1px groove #b7b7b7;
+	}
+.info-cont > p{
+	margin: 2% 3% 8% 3%;
+	text-align: justify;
+}
+strong{
+	text-decoration: underline;
+}
+.sub-titles{
+	text-decoration: underline;
+	font-weight: bold;
+	font-style: italic;
+}
+
+/*------------------Desktop adjustments---------------------------------------------*/
+
+@media only screen and (min-width: 768px){
+	.info-cont{
+		font-size: 1.2em;
+	}
+	.docs-title{		
+		margin-bottom: 6%;
+	}
+	.item-title{
+		font-size: 1.25em;
+		border-bottom: 1px groove #080808;
+	}
+	.info-cont > p{
+		margin: 2% 3% 3% 3%;
+		text-align: justify;
+	}
+}

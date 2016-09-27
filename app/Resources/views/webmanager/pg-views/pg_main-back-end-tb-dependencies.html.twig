@@ -1,0 +1,31 @@
+{%extends 'webmanager/pg-views/pg_main-back-end.html.twig'%}
+{%block content%}
+	<a name="table-link"></a>
+	<div class="dep-container">
+		<div class="col-sm-12">
+			<h4 class="depend-title">See dependencies between database tables to manage your data easily.</h4>
+			<hr class="margin-null"/>
+		</div>
+		<div class="col-sm-12">
+			{%for tables, tables_dep in tb_dependencies_arr%}
+				<div class="tb-dep-container col-sm-3 padding-null ">
+					<div class="db-tb-text">
+						{{tables|replace({'tb_':'Table ', '_':'-'})}}
+					</div>
+					{%if tables_dep|length > 0%}						
+						{%for dependencies in tables_dep%}						
+							<div class="tb-dependencies dependecies-icon lg-margin-left">
+								{{dependencies|replace({'tb_':'Table ', '_':'-'})}}*
+							</div>					
+						{%endfor%}
+					{%else%}
+						<div class="tb-dependencies lg-margin-left">
+							No dependencies found...
+						</div>
+					{%endif%}
+				</div>
+			{%endfor%}
+		</div>
+	</div>
+	
+{%endblock content%}

@@ -1,0 +1,25 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+#    service_name:
+#        class: WebManagementBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.common_queries:
+        class: WebManagementBundle\Helpers\CommonQueries
+    app.mm_electric_queries:
+        class: MMElectricBundle\Helpers\MMElectricQueries
+    app.mm_electric_category_manager:
+        class: MMElectricBundle\customs\categoryManager
+    app.paginate:
+        class: WebManagementBundle\Helpers\Paginate
+    form.type.texteditor:
+        class: WebManagementBundle\Form\Type\TextEditorType
+        tags:
+            - { name: form.type, alias: texteditor }
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }

@@ -1,0 +1,4 @@
+services:
+#    mm_electric.example:
+#        class: MMElectricBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

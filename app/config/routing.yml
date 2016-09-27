@@ -1,0 +1,11 @@
+mm_electric:
+    resource: "@MMElectricBundle/Resources/config/routing.yml"
+    prefix:   /
+    options:
+        expose: true
+
+web_system_mng:
+    resource: "@WebManagementBundle/Resources/config/routing.yml"
+    prefix:   /
+    options:
+        expose: true

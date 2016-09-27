@@ -1,0 +1,8 @@
+app:
+    resource: "@MMElectricBundle/Controller"
+    type: annotation
+get_photos_album:
+    path: /album/photos/
+    defaults: { _controller: MMElectricBundle:Main:getPhotosAlbum}
+    options:
+        expose: true

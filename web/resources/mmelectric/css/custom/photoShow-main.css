@@ -1,0 +1,207 @@
+body{
+	background: #aaaaaa;
+}
+.photoShow{
+	width: 100%;
+	height: 80%;
+	border: 1px groove #171720;
+}
+.v-screen{
+	width: 100%;
+	height: 80%;
+/*	border: 1px groove #171720;*/
+	background: black;
+/*	padding: 1%;*/
+	position: relative;
+	cursor: pointer;
+}
+.v-screen > img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.description-container, .btn-prev-img, .btn-next-img{
+	position: absolute;
+	z-index: 2000;
+	overflow: hidden;
+}
+.btn-prev-img{
+	height: 100%;
+	width: 0;
+	top: 0;
+	left: 0;
+	background: url('../../icons/photoShow/left-btn-250x5.png')repeat-y top left;
+	background-size: 100% 100%;
+}
+.btn-next-img{
+	height: 100%;
+	width: 0;
+	top: 0;
+	right: 0;
+	background: url('../../icons/photoShow/right-btn-250x5.png')repeat-y top left;
+	background-size: 100% 100%;
+}
+.center-XY{
+	position: absolute;
+	top:50%;
+	left: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	-moz-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	-o-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+.btn-selection{	
+	margin-bottom: auto;
+	margin-top: auto;
+	color: white;	
+	width: 60%;
+	height: 12%;
+	
+}
+.btn-prev{
+	background: url('../../icons/photoShow/left-arrow-50x50.png')no-repeat top left;
+	background-size: 90% 90%;
+}
+.btn-prev:hover{
+	background: url('../../icons/photoShow/left-arrow-hover-50x50.png')no-repeat top left;
+	background-size: 90% 90%;
+}
+.btn-next{
+	background: url('../../icons/photoShow/right-arrow-50x50.png')no-repeat top left;
+	background-size: 90% 90%;
+}
+.btn-next:hover{
+	background: url('../../icons/photoShow/right-arrow-hover-50x50.png')no-repeat top left;
+	background-size: 90% 90%;
+}
+.description-container{
+	bottom: 0;
+	left: 50%;
+	height:0;		
+	font-size: .95em;
+	background: black;
+	font-style: italic;
+	background: white;
+	-webkit-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	transform: translateX(-50%);
+	background: url('../../icons/photoShow/caption-box-background.png') repeat-y;
+}
+.description-container > *{
+	color: #f9f9f9;
+	padding: 2%;
+}
+.img-description{
+	display: none;
+}
+.strip-container{
+	width: 100%;
+	height: 20%;
+	border-top: 1px groove #9f9fb9;
+	position: relative;	
+	background: #0c0c0c;
+	background-size: auto 100%;
+	
+}
+.forward-btn-strip{	
+	background: url('../../icons/photoShow/forward-btn-strip-100x100.png') no-repeat top left;
+	float: right;
+}
+.forward-btn-strip:hover{	
+	background: url('../../icons/photoShow/forward-btn-strip-hover-100x100.png') no-repeat top left;
+	background-size: 100% 100%;
+	border: 1px solid #3a3a3a;
+}
+
+.backward-btn-strip{	
+	background: url('../../icons/photoShow/backward-btn-strip-100x100.png') no-repeat top left;
+	float: left;
+}
+.backward-btn-strip:hover{	
+	background: url('../../icons/photoShow/backward-btn-strip-hover-100x100.png') no-repeat top left;
+	background-size: 100% 100%;
+	border: 1px solid #3a3a3a;
+}
+
+.backward-btn-strip, .forward-btn-strip{
+	display: inline-block;
+	width: 5%;
+	height: 50%;
+	border: 1px solid #1a1a1a;	
+	margin: 3% 0 0 0;
+	display: none;
+/*	background: gray;*/
+	cursor: pointer;
+	background-size: 100% 100%;
+	webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+
+	/* Rules below not implemented in browsers yet */
+	-o-user-select: none;
+	user-select: none;
+}
+.thumbs-strip{
+	width: 87%;
+	height: 100%;
+	display: inline-block;
+/*	float: left;*/
+	overflow: hidden;
+	white-space: nowrap;
+	margin: 0% 1% 0% 1%;
+}
+.strip-container , .thumbs-strip > ul{
+	margin: 0%;
+	padding: 0%
+}
+.imgs{
+	display: inline-block;
+	width: 12.5%;
+	height: 91%;
+	background: #21253a;
+	border: 2px solid #010101;
+	margin: 0.5% 0% 0.5% 1%;
+	cursor: pointer;
+	
+}
+.img-active{
+	border: 1px outset #f7ffff;
+	box-shadow: 0 .1em .15em 0 #e4e4eb, 0 -.1em .15em 0 #e4e4eb;
+	width: 12.5%;
+	height: 91%;
+}
+.imgs:hover{
+	border: 2px solid black;
+	box-shadow: 0 .1em .15em 0 #e4e4eb, 0 -.1em .15em 0 #e4e4eb;
+	
+}
+.thumbs-strip > ul{
+	list-style-type: none;
+}
+.imgs > img{
+	height: 100%;
+	width: 100%;
+}
+@media screen and (max-width: 980px){
+	.photoShow{
+		width: 100%;
+		height: 30%;
+		border: 1px solid black;
+	}
+}
+@media screen and (max-width: 768px){
+	.photoShow{
+		width: 100%;
+		height: 35%;
+		border: 1px solid black;
+	}
+	.imgs{
+		margin: 1% 0% 0.5% 0%;	
+	}	
+	.description-container{	
+		font-size: .5em;	
+	}
+}

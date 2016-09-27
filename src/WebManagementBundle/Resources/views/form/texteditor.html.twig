@@ -1,0 +1,16 @@
+{%block texteditor_widget%}
+	<link rel="stylesheet" href="{{asset('libs/font-awesome-4.4.0/css/font-awesome.min.css')}}"/>
+	<link rel="stylesheet" href="{{asset('libs/summernote/summernote.css')}}"/>
+	<script type="text/javascript" src="{{asset('/libs/jquery/jquery-1.11.1.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/libs/summernote/summernote.js')}}"></script>
+	<textarea id="summernote" class="summernote form-control hidden" {{ block('widget_attributes') }}>{{ value|raw }}</textarea>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.summernote').summernote({
+				height:260,
+				overflow: true,
+				focus: false
+			});
+		});	
+    </script>
+{%endblock%}

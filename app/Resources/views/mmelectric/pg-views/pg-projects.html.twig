@@ -1,0 +1,101 @@
+{%extends "mmelectric/templates/temp-sections-mmelectric.html.twig"%}
+{% block title%}
+	Projects - M&M Electric of Central Florida, Inc.
+{% endblock title%}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('/resources/mmelectric/css/custom/main.css')}}"/>
+	<link rel="stylesheet" href="{{asset('/resources/mmelectric/css/custom/projects.css')}}"/>
+	<link rel="stylesheet" href="{{asset('/resources/mmelectric/css/custom/photoShow-main.css')}}"/>
+{% endblock %}
+{%block projects%}
+		<li><a class="nav-link active-link menu-button-selected" href="{{path("home", {})}}#projects">Projects</a></li>
+	{%endblock projects%}
+{%block content%}
+	<div class="cl-projects-section">
+		<div class="container projects-background">
+			{% for projects_articles in projects_arr %}
+				<div class="project-container"  id="{{projects_articles["id"]}}">	
+						<div class="project-title text-center">{{projects_articles["title"]}}</div>
+						<div class="img-container">							
+							{%if projects_articles["album"]%}
+								<img class="img-responsive img-thumbnail project-img has-album" src="{{asset(projects_articles["url"])}}" alt="{{projects_articles["title"]}}"/>
+								<div class="album-icon" data-toggle="modal" data-target="#myModal">CLick for more</div>	
+								<div id="{{projects_articles["id"]}}" class="show-album" data-toggle="modal" data-target="#myModal">
+									<p class="text-center" >View more...</p>
+								</div>
+								<div class="has-album1 img-thumbnail"> </div>
+							{%else%}
+								<img class="img-responsive img-thumbnail project-img" src="{{asset(projects_articles["url"])}}" alt="{{projects_articles["title"]}}"/>
+							{%endif%}
+						</div>
+						<div class="text-center"><strong> Completion Date:</strong> <cite>{{projects_articles["date"]}}</cite></div>
+						<div class="project-content">
+							{{projects_articles["content"]|raw}}								
+						</div>					
+				</div>
+			{% endfor%}
+		</div>
+	</div>
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal-dialog modal-lg">
+				<div class="modal-body">
+					<!--Photo Show Responsive viewfinder-->		
+						<div class="photoShow">	
+							<!--main view-->				
+								<div class="v-screen ">	
+								
+									<!--main image view-->							
+										<img class="center-XY" src="/mmelectric/web/bundles/mmelectric/icons/photoShow/loading.gif"/>
+									<!--main image view-->
+									
+									<!--main image controls-->
+										<div class="btn-prev-img">
+											<div class="center-XY btn-selection btn-prev"></div>
+										</div>
+										
+										<div class="btn-next-img">
+											<div class="center-XY btn-selection btn-next"></div>
+										</div>
+									<!--main image controls-->
+									
+									<!--image description-->
+										<div class="description-container" >
+											<p></p>
+										</div>
+									<!--image description-->
+									
+								</div>
+							<!--main view-->
+							
+							<!--images strip-->	
+								<div class="strip-container">
+								
+									<div class="backward-btn-strip" unselectable="on">
+											
+									</div>
+									
+									<div class="thumbs-strip">
+									
+											<!--images list and description-->
+											<ul class="text-center">
+												<!--<li class="imgs"><img src=""/><div class="img-description"></div></li>
+												<li class="imgs"><img src=""/><div class="img-description">M&M Electric of Central Florida, Inc. has been in business since July, 2002. It provices both commercial and residential service and repairs.</div></li>-->
+												
+											</ul>
+											<!--images list and description-->
+									</div>
+									
+									<div class="forward-btn-strip" unselectable="on">
+										
+									</div>
+										
+								</div>
+								
+							<!--images strip-->
+								
+						</div>
+					<!--Photo Show Responsive viewfinder-->
+				</div>
+		</div>
+	</div>
+{%endblock content%}
